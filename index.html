@@ -79,6 +79,16 @@
       from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
       to { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(.2); }
     }
+    .sparkle {
+      position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--spark-color, #fff9cf); pointer-events: none;
+      box-shadow: 0 0 10px rgba(255,255,255,.9);
+      animation: sparkle .7s ease-out forwards;
+    }
+    @keyframes sparkle {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(.2); }
+      100% { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.8); }
+    }
     .balloon::after {
       content: ""; position: absolute; left: 42%; bottom: -5%;
       width: 16%; height: 8%; background: var(--color);
@@ -97,6 +107,20 @@
       100% { transform: translate3d(var(--drift), -125vh, 0) rotate(5deg); }
     }
     @keyframes sway { from { transform: rotate(-13deg); } to { transform: rotate(13deg); } }
+    .congrats {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(.8);
+      padding: 16px 26px; border-radius: 999px; background: rgba(255,255,255,.85);
+      color: #244d61; font-weight: 900; letter-spacing: .04em; z-index: 10;
+      box-shadow: 0 18px 38px rgba(22, 98, 128, .18); border: 2px solid rgba(86, 207, 225, .45);
+      font-size: clamp(22px, 4vw, 38px); opacity: 0; pointer-events: none;
+      animation: congrats-pop .9s ease forwards;
+    }
+    @keyframes congrats-pop {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(.7); }
+      20% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+      75% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(.94) translateY(-12px); }
+    }
     .controls {
       position: absolute; z-index: 3; left: 50%; bottom: 18px; transform: translateX(-50%);
       display: flex; gap: 10px; align-items: center; justify-content: center;
@@ -122,7 +146,7 @@
   <div class="cloud c1" aria-hidden="true"></div>
   <div class="cloud c2" aria-hidden="true"></div>
   <div class="cloud c3" aria-hidden="true"></div>
-  <main id="sky" aria-label="Animated balloons floating upward"><div class="balloon" style="left: 59.8725%; --size: 40.956274973840635px; --color: #56cfe1; --duration: 15.594923291745827s; --drift: 45.848515454189034px;"><span class="string"></span></div><div class="balloon" style="left: 35.9144%; --size: 48.18638167052357px; --color: #ff6b35; --duration: 15.797673026181435s; --drift: 57.98535876851631px;"><span class="string"></span></div><div class="balloon" style="left: 39.4326%; --size: 50.343759490425px; --color: #8b5cf6; --duration: 15.85037860819759s; --drift: 27.204549521340912px;"><span class="string"></span></div><div class="balloon" style="left: 11.3313%; --size: 76.20730732533688px; --color: #4d96ff; --duration: 15.91038455943136s; --drift: 0.4287220661081115px;"><span class="string"></span></div><div class="balloon" style="left: 65.1264%; --size: 63.56910922748193px; --color: #56cfe1; --duration: 15.60933881441669s; --drift: 87.42151037347779px;"><span class="string"></span></div><div class="balloon" style="left: 32.8615%; --size: 79.23798260531564px; --color: #ff6b35; --duration: 15.684716194137541s; --drift: 0.20893186372286987px;"><span class="string"></span></div><div class="balloon" style="left: 25.0334%; --size: 63.400817977735606px; --color: #8b5cf6; --duration: 15.696015286477618s; --drift: -78.11495014286224px;"><span class="string"></span></div><div class="balloon" style="left: 44.3735%; --size: 47.518779735173126px; --color: #4d96ff; --duration: 15.569116861882474s; --drift: 25.685675022792065px;"><span class="string"></span></div><div class="balloon" style="left: 75.1212%; --size: 37.75221447920416px; --color: #56cfe1; --duration: 15.900086961676282s; --drift: 75.42317904321496px;"><span class="string"></span></div><div class="balloon" style="left: 91.1067%; --size: 44.66593883340047px; --color: #8b5cf6; --duration: 14.96274250706827s; --drift: 47.02711550773605px;"><span class="string"></span></div><div class="balloon" style="left: 68.6003%; --size: 63.15154402633607px; --color: #ffd93d; --duration: 14.213113162396663s; --drift: 47.560872769850576px;"><span class="string"></span></div><div class="balloon" style="left: 41.8124%; --size: 46.38277368345037px; --color: #4d96ff; --duration: 14.26022574609231s; --drift: -21.668161243587885px;"><span class="string"></span></div><div class="balloon" style="left: 14.5828%; --size: 53.07251099917659px; --color: #ffd93d; --duration: 14.313737443021811s; --drift: -16.556751968500997px;"><span class="string"></span></div><div class="balloon" style="left: 82.5229%; --size: 54.846370250171226px; --color: #ffd93d; --duration: 13.395775710448682s; --drift: 7.179307316581232px;"><span class="string"></span></div><div class="balloon" style="left: 16.8578%; --size: 44.95814708304155px; --color: #ff5b75; --duration: 9.736351494638981s; --drift: -80.2149590598266px;"><span class="string"></span></div><div class="balloon" style="left: 87.5927%; --size: 66.3165261370618px; --color: #ff5b75; --duration: 12.893135326785377s; --drift: -32.14465878325436px;"><span class="string"></span></div><div class="balloon" style="left: 86.9197%; --size: 55.99542194028937px; --color: #ff9f1c; --duration: 13.035530372326413s; --drift: 65.84210775333581px;"><span class="string"></span></div><div class="balloon" style="left: 57.616%; --size: 41.72353842299003px; --color: #ff70c8; --duration: 11.512784680280951s; --drift: -60.17382778584519px;"><span class="string"></span></div><div class="balloon" style="left: 62.1343%; --size: 43.68870269523361px; --color: #4d96ff; --duration: 13.189499459719848s; --drift: 83.9458381260165px;"><span class="string"></span></div><div class="balloon" style="left: 52.8157%; --size: 54.52849755813149px; --color: #ff5b75; --duration: 15.882298208147013s; --drift: 2.8148366265384572px;"><span class="string"></span></div><div class="balloon" style="left: 54.9349%; --size: 34.516348363140004px; --color: #ff5b75; --duration: 13.284376136118144s; --drift: -59.91727470535453px;"><span class="string"></span></div><div class="balloon" style="left: 89.9972%; --size: 79.6910749329319px; --color: #8b5cf6; --duration: 12.933330744451606s; --drift: -80.18527853219048px;"><span class="string"></span></div><div class="balloon" style="left: 10.8638%; --size: 57.01501021614907px; --color: #ffd93d; --duration: 11.121162687785832s; --drift: 6.687051953317811px;"><span class="string"></span></div><div class="balloon" style="left: 59.5686%; --size: 62.428735214592685px; --color: #ff9f1c; --duration: 8.526149751106018s; --drift: -17.404165934800307px;"><span class="string"></span></div><div class="balloon" style="left: 93.1595%; --size: 49.565886727891915px; --color: #35c96f; --duration: 11.992106006297469s; --drift: 19.22286844396389px;"><span class="string"></span></div><div class="balloon" style="left: 24.5009%; --size: 73.08852225168903px; --color: #ff70c8; --duration: 8.57488312674206s; --drift: 83.54834139186013px;"><span class="string"></span></div><div class="balloon" style="left: 10.9334%; --size: 53.8988553011815px; --color: #ff6b35; --duration: 12.452242687437261s; --drift: -52.860932808636605px;"><span class="string"></span></div><div class="balloon" style="left: 89.0811%; --size: 61.69342989640687px; --color: #35c96f; --duration: 12.832293859842649s; --drift: 32.24020496207607px;"><span class="string"></span></div><div class="balloon" style="left: 10.3913%; --size: 40.37674597737461px; --color: #ff70c8; --duration: 8.910302156489553s; --drift: 89.02418563728655px;"><span class="string"></span></div><div class="balloon" style="left: 80.0948%; --size: 81.4726047817109px; --color: #8b5cf6; --duration: 7.095157368856074s; --drift: 83.78718302227178px;"><span class="string"></span></div><div class="balloon" style="left: 3.943%; --size: 45.482184984819945px; --color: #ff6b35; --duration: 8.23570662509285s; --drift: -71.52106170957612px;"><span class="string"></span></div><div class="balloon" style="left: 16.689%; --size: 71.937591954726px; --color: #35c96f; --duration: 14.313062301855204s; --drift: -61.15001449878999px;"><span class="string"></span></div><div class="balloon" style="left: 28.0512%; --size: 63.99252551690779px; --color: #8b5cf6; --duration: 8.750756884569993s; --drift: -34.4111723039608px;"><span class="string"></span></div><div class="balloon" style="left: 88.2102%; --size: 81.8202345937595px; --color: #ff6b35; --duration: 14.892674463068492s; --drift: 28.53143903117168px;"><span class="string"></span></div><div class="balloon" style="left: 72.738%; --size: 50.675914606709966px; --color: #ffd93d; --duration: 10.392243013877845s; --drift: -46.353951633339264px;"><span class="string"></span></div></main>
+  <main id="sky" aria-label="Animated balloons floating upward"></main>
   <div class="controls">
     <button id="more" type="button">＋ Add balloons</button>
     <button id="pause" type="button" aria-pressed="false">Ⅱ Pause</button>
@@ -132,6 +156,28 @@
     const colors = ['#ff5b75', '#ff9f1c', '#ffd93d', '#56cfe1', '#4d96ff', '#8b5cf6', '#35c96f', '#ff70c8', '#ff6b35'];
     let paused = false;
     let spawnTimer;
+    let burstCount = 0;
+
+    function createSparkles(balloon, color) {
+      for (let i = 0; i < 12; i++) {
+        const sparkle = document.createElement('span');
+        sparkle.className = 'sparkle';
+        sparkle.style.setProperty('--spark-color', color);
+        const angle = (Math.PI * 2 * i) / 12;
+        const distance = 18 + Math.random() * 30;
+        sparkle.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+        sparkle.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+        balloon.appendChild(sparkle);
+      }
+    }
+
+    function showCongratulations() {
+      const banner = document.createElement('div');
+      banner.className = 'congrats';
+      banner.textContent = 'Congratulations! 🎉';
+      sky.appendChild(banner);
+      setTimeout(() => banner.remove(), 1200);
+    }
 
     function makeBalloon(startImmediately = false) {
       const balloon = document.createElement('div');
@@ -153,7 +199,8 @@
         if (balloon.classList.contains('burst')) return;
         event.stopPropagation();
         balloon.classList.add('burst');
-        // Small colorful burst particles for a fun pop effect.
+        const balloonColor = getComputedStyle(balloon).getPropertyValue('--color').trim();
+        createSparkles(balloon, balloonColor);
         for (let i = 0; i < 8; i++) {
           const piece = document.createElement('span');
           piece.className = 'pop-piece';
@@ -161,7 +208,13 @@
           const distance = 28 + Math.random() * 28;
           piece.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
           piece.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+          piece.style.setProperty('--color', balloonColor);
           balloon.appendChild(piece);
+        }
+        burstCount += 1;
+        if (burstCount >= 5) {
+          showCongratulations();
+          burstCount = 0;
         }
         setTimeout(() => balloon.remove(), 500);
       });
