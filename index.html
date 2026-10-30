@@ -44,6 +44,17 @@
       font-weight: 500; letter-spacing: 0;
     }
     #sky { position: absolute; inset: 0; overflow: hidden; }
+    .scoreboard {
+      position: absolute; top: 18px; left: 18px; z-index: 4;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 16px; border-radius: 999px;
+      background: rgba(255,255,255,.82); color: #214b62;
+      font-weight: 800; letter-spacing: .02em;
+      box-shadow: 0 8px 22px rgba(28, 79, 107, .12);
+    }
+    .scoreboard .value {
+      display: inline-block; min-width: 1.5ch; font-size: 1.2em;
+    }
     .balloon {
       position: absolute; bottom: -180px; width: var(--size); height: calc(var(--size) * 1.22);
       border-radius: 50% 50% 46% 46%;
@@ -108,7 +119,7 @@
     }
     @keyframes sway { from { transform: rotate(-13deg); } to { transform: rotate(13deg); } }
     .congrats {
-      position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(.8);
+      position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%) scale(.8);
       padding: 16px 26px; border-radius: 999px; background: rgba(255,255,255,.85);
       color: #244d61; font-weight: 900; letter-spacing: .04em; z-index: 10;
       box-shadow: 0 18px 38px rgba(22, 98, 128, .18); border: 2px solid rgba(86, 207, 225, .45);
@@ -142,6 +153,7 @@
 </head>
 <body>
   <div class="sun" aria-hidden="true"></div>
+  <div class="scoreboard" aria-live="polite">Score: <span id="scoreValue" class="value">0</span></div>
   <div class="title">A Sky Full of Balloons 🎈<span class="subtitle">Watch the colors float up!</span></div>
   <div class="cloud c1" aria-hidden="true"></div>
   <div class="cloud c2" aria-hidden="true"></div>
@@ -153,10 +165,16 @@
   </div>
   <script>
     const sky = document.getElementById('sky');
+    const scoreValue = document.getElementById('scoreValue');
     const colors = ['#ff5b75', '#ff9f1c', '#ffd93d', '#56cfe1', '#4d96ff', '#8b5cf6', '#35c96f', '#ff70c8', '#ff6b35'];
     let paused = false;
     let spawnTimer;
     let burstCount = 0;
+    let score = 0;
+
+    function updateScore() {
+      scoreValue.textContent = String(score);
+    }
 
     function createSparkles(balloon, color) {
       for (let i = 0; i < 12; i++) {
@@ -211,6 +229,9 @@
           piece.style.setProperty('--color', balloonColor);
           balloon.appendChild(piece);
         }
+
+        score += 10;
+        updateScore();
         burstCount += 1;
         if (burstCount >= 5) {
           showCongratulations();
@@ -243,6 +264,7 @@
       event.currentTarget.setAttribute('aria-pressed', String(paused));
     });
 
+    updateScore();
     startBalloons();
   </script>
 
