@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)file:///C:/Users/MadhuriJoshi/Downloads/floating_balloons.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Floating Balloons 🎈</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: linear-gradient(180deg, #b9efff 0%, #e8fbff 62%, #fff8ee 100%);
+      position: relative;
+    }
+    .sun {
+      position: absolute; top: 7%; right: 9%;
+      width: clamp(55px, 9vw, 115px); aspect-ratio: 1;
+      border-radius: 50%; background: #fff3a6;
+      box-shadow: 0 0 55px 18px rgba(255, 235, 140, .35);
+    }
+    .cloud {
+      position: absolute; bottom: -25px; height: 100px; width: 260px;
+      background: rgba(255,255,255,.75); border-radius: 100px;
+      filter: blur(1px);
+    }
+    .cloud::before, .cloud::after {
+      content: ""; position: absolute; background: inherit; border-radius: 50%;
+    }
+    .cloud::before { width: 115px; height: 115px; left: 35px; bottom: 20px; }
+    .cloud::after { width: 145px; height: 145px; right: 28px; bottom: 5px; }
+    .cloud.c1 { left: -60px; }
+    .cloud.c2 { right: -70px; transform: scale(.85); bottom: -38px; }
+    .cloud.c3 { left: 35%; transform: scale(.65); bottom: -55px; }
+    .title {
+      position: absolute; top: 24px; left: 50%; transform: translateX(-50%);
+      width: max-content; max-width: 90vw; text-align: center;
+      color: #28556d; font-size: clamp(18px, 3vw, 30px);
+      font-weight: 800; letter-spacing: .4px;
+      text-shadow: 0 2px 0 rgba(255,255,255,.75);
+      pointer-events: none; z-index: 2;
+    }
+    .subtitle {
+      display: block; margin-top: 4px; font-size: clamp(11px, 1.5vw, 14px);
+      font-weight: 500; letter-spacing: 0;
+    }
+    #sky { position: absolute; inset: 0; overflow: hidden; }
+    .balloon {
+      position: absolute; bottom: -180px; width: var(--size); height: calc(var(--size) * 1.22);
+      border-radius: 50% 50% 46% 46%;
+      background: var(--color);
+      opacity: .94;
+      box-shadow: inset calc(var(--size) * -.09) calc(var(--size) * -.06) 0 rgba(0,0,0,.09),
+                  inset calc(var(--size) * .12) calc(var(--size) * .08) 0 rgba(255,255,255,.22),
+                  0 7px 13px rgba(30, 90, 120, .10);
+      animation: rise var(--duration) linear forwards;
+      will-change: transform, bottom;
+    }
+    .balloon { cursor: pointer; touch-action: manipulation; }
+    .balloon::before {
+      content: ""; position: absolute; width: 22%; height: 12%;
+      left: 24%; top: 13%; border-radius: 50%; background: rgba(255,255,255,.52);
+      transform: rotate(-35deg);
+    }
+    .balloon.burst {
+      pointer-events: none;
+      animation: pop .22s ease-out forwards !important;
+    }
+    @keyframes pop {
+      0% { opacity: 1; transform: scale(1); }
+      55% { opacity: .9; transform: scale(1.35); }
+      100% { opacity: 0; transform: scale(.05); }
+    }
+    .pop-piece {
+      position: absolute; left: 50%; top: 50%; width: 7px; height: 7px;
+      border-radius: 50%; background: var(--color); pointer-events: none;
+      animation: pop-piece .45s ease-out forwards;
+    }
+    @keyframes pop-piece {
+      from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      to { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(.2); }
+    }
+    .balloon::after {
+      content: ""; position: absolute; left: 42%; bottom: -5%;
+      width: 16%; height: 8%; background: var(--color);
+      clip-path: polygon(50% 100%, 0 0, 100% 0);
+      filter: brightness(.86);
+    }
+    .string {
+      position: absolute; left: 50%; top: 100%; width: 1.5px; height: calc(var(--size) * .52);
+      background: rgba(80, 100, 120, .65); transform-origin: top;
+      animation: sway 1.8s ease-in-out infinite alternate;
+    }
+    @keyframes rise {
+      0% { transform: translate3d(0, 0, 0) rotate(-5deg); }
+      25% { transform: translate3d(var(--drift), -25vh, 0) rotate(4deg); }
+      55% { transform: translate3d(calc(var(--drift) * -.55), -60vh, 0) rotate(-4deg); }
+      100% { transform: translate3d(var(--drift), -125vh, 0) rotate(5deg); }
+    }
+    @keyframes sway { from { transform: rotate(-13deg); } to { transform: rotate(13deg); } }
+    .controls {
+      position: absolute; z-index: 3; left: 50%; bottom: 18px; transform: translateX(-50%);
+      display: flex; gap: 10px; align-items: center; justify-content: center;
+      width: max-content; max-width: 94vw; flex-wrap: wrap;
+    }
+    button {
+      border: 0; border-radius: 999px; padding: 11px 18px; cursor: pointer;
+      font: inherit; font-weight: 700; color: #214b62; background: rgba(255,255,255,.88);
+      box-shadow: 0 5px 18px rgba(35, 100, 130, .15);
+      transition: transform .15s ease, background .15s ease;
+    }
+    button:hover { transform: translateY(-2px); background: white; }
+    button:focus-visible { outline: 3px solid #28556d; outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) {
+      .balloon { animation-duration: 18s !important; }
+      .string { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sun" aria-hidden="true"></div>
+  <div class="title">A Sky Full of Balloons 🎈<span class="subtitle">Watch the colors float up!</span></div>
+  <div class="cloud c1" aria-hidden="true"></div>
+  <div class="cloud c2" aria-hidden="true"></div>
+  <div class="cloud c3" aria-hidden="true"></div>
+  <main id="sky" aria-label="Animated balloons floating upward"><div class="balloon" style="left: 59.8725%; --size: 40.956274973840635px; --color: #56cfe1; --duration: 15.594923291745827s; --drift: 45.848515454189034px;"><span class="string"></span></div><div class="balloon" style="left: 35.9144%; --size: 48.18638167052357px; --color: #ff6b35; --duration: 15.797673026181435s; --drift: 57.98535876851631px;"><span class="string"></span></div><div class="balloon" style="left: 39.4326%; --size: 50.343759490425px; --color: #8b5cf6; --duration: 15.85037860819759s; --drift: 27.204549521340912px;"><span class="string"></span></div><div class="balloon" style="left: 11.3313%; --size: 76.20730732533688px; --color: #4d96ff; --duration: 15.91038455943136s; --drift: 0.4287220661081115px;"><span class="string"></span></div><div class="balloon" style="left: 65.1264%; --size: 63.56910922748193px; --color: #56cfe1; --duration: 15.60933881441669s; --drift: 87.42151037347779px;"><span class="string"></span></div><div class="balloon" style="left: 32.8615%; --size: 79.23798260531564px; --color: #ff6b35; --duration: 15.684716194137541s; --drift: 0.20893186372286987px;"><span class="string"></span></div><div class="balloon" style="left: 25.0334%; --size: 63.400817977735606px; --color: #8b5cf6; --duration: 15.696015286477618s; --drift: -78.11495014286224px;"><span class="string"></span></div><div class="balloon" style="left: 44.3735%; --size: 47.518779735173126px; --color: #4d96ff; --duration: 15.569116861882474s; --drift: 25.685675022792065px;"><span class="string"></span></div><div class="balloon" style="left: 75.1212%; --size: 37.75221447920416px; --color: #56cfe1; --duration: 15.900086961676282s; --drift: 75.42317904321496px;"><span class="string"></span></div><div class="balloon" style="left: 91.1067%; --size: 44.66593883340047px; --color: #8b5cf6; --duration: 14.96274250706827s; --drift: 47.02711550773605px;"><span class="string"></span></div><div class="balloon" style="left: 68.6003%; --size: 63.15154402633607px; --color: #ffd93d; --duration: 14.213113162396663s; --drift: 47.560872769850576px;"><span class="string"></span></div><div class="balloon" style="left: 41.8124%; --size: 46.38277368345037px; --color: #4d96ff; --duration: 14.26022574609231s; --drift: -21.668161243587885px;"><span class="string"></span></div><div class="balloon" style="left: 14.5828%; --size: 53.07251099917659px; --color: #ffd93d; --duration: 14.313737443021811s; --drift: -16.556751968500997px;"><span class="string"></span></div><div class="balloon" style="left: 82.5229%; --size: 54.846370250171226px; --color: #ffd93d; --duration: 13.395775710448682s; --drift: 7.179307316581232px;"><span class="string"></span></div><div class="balloon" style="left: 16.8578%; --size: 44.95814708304155px; --color: #ff5b75; --duration: 9.736351494638981s; --drift: -80.2149590598266px;"><span class="string"></span></div><div class="balloon" style="left: 87.5927%; --size: 66.3165261370618px; --color: #ff5b75; --duration: 12.893135326785377s; --drift: -32.14465878325436px;"><span class="string"></span></div><div class="balloon" style="left: 86.9197%; --size: 55.99542194028937px; --color: #ff9f1c; --duration: 13.035530372326413s; --drift: 65.84210775333581px;"><span class="string"></span></div><div class="balloon" style="left: 57.616%; --size: 41.72353842299003px; --color: #ff70c8; --duration: 11.512784680280951s; --drift: -60.17382778584519px;"><span class="string"></span></div><div class="balloon" style="left: 62.1343%; --size: 43.68870269523361px; --color: #4d96ff; --duration: 13.189499459719848s; --drift: 83.9458381260165px;"><span class="string"></span></div><div class="balloon" style="left: 52.8157%; --size: 54.52849755813149px; --color: #ff5b75; --duration: 15.882298208147013s; --drift: 2.8148366265384572px;"><span class="string"></span></div><div class="balloon" style="left: 54.9349%; --size: 34.516348363140004px; --color: #ff5b75; --duration: 13.284376136118144s; --drift: -59.91727470535453px;"><span class="string"></span></div><div class="balloon" style="left: 89.9972%; --size: 79.6910749329319px; --color: #8b5cf6; --duration: 12.933330744451606s; --drift: -80.18527853219048px;"><span class="string"></span></div><div class="balloon" style="left: 10.8638%; --size: 57.01501021614907px; --color: #ffd93d; --duration: 11.121162687785832s; --drift: 6.687051953317811px;"><span class="string"></span></div><div class="balloon" style="left: 59.5686%; --size: 62.428735214592685px; --color: #ff9f1c; --duration: 8.526149751106018s; --drift: -17.404165934800307px;"><span class="string"></span></div><div class="balloon" style="left: 93.1595%; --size: 49.565886727891915px; --color: #35c96f; --duration: 11.992106006297469s; --drift: 19.22286844396389px;"><span class="string"></span></div><div class="balloon" style="left: 24.5009%; --size: 73.08852225168903px; --color: #ff70c8; --duration: 8.57488312674206s; --drift: 83.54834139186013px;"><span class="string"></span></div><div class="balloon" style="left: 10.9334%; --size: 53.8988553011815px; --color: #ff6b35; --duration: 12.452242687437261s; --drift: -52.860932808636605px;"><span class="string"></span></div><div class="balloon" style="left: 89.0811%; --size: 61.69342989640687px; --color: #35c96f; --duration: 12.832293859842649s; --drift: 32.24020496207607px;"><span class="string"></span></div><div class="balloon" style="left: 10.3913%; --size: 40.37674597737461px; --color: #ff70c8; --duration: 8.910302156489553s; --drift: 89.02418563728655px;"><span class="string"></span></div><div class="balloon" style="left: 80.0948%; --size: 81.4726047817109px; --color: #8b5cf6; --duration: 7.095157368856074s; --drift: 83.78718302227178px;"><span class="string"></span></div><div class="balloon" style="left: 3.943%; --size: 45.482184984819945px; --color: #ff6b35; --duration: 8.23570662509285s; --drift: -71.52106170957612px;"><span class="string"></span></div><div class="balloon" style="left: 16.689%; --size: 71.937591954726px; --color: #35c96f; --duration: 14.313062301855204s; --drift: -61.15001449878999px;"><span class="string"></span></div><div class="balloon" style="left: 28.0512%; --size: 63.99252551690779px; --color: #8b5cf6; --duration: 8.750756884569993s; --drift: -34.4111723039608px;"><span class="string"></span></div><div class="balloon" style="left: 88.2102%; --size: 81.8202345937595px; --color: #ff6b35; --duration: 14.892674463068492s; --drift: 28.53143903117168px;"><span class="string"></span></div><div class="balloon" style="left: 72.738%; --size: 50.675914606709966px; --color: #ffd93d; --duration: 10.392243013877845s; --drift: -46.353951633339264px;"><span class="string"></span></div></main>
+  <div class="controls">
+    <button id="more" type="button">＋ Add balloons</button>
+    <button id="pause" type="button" aria-pressed="false">Ⅱ Pause</button>
+  </div>
+  <script>
+    const sky = document.getElementById('sky');
+    const colors = ['#ff5b75', '#ff9f1c', '#ffd93d', '#56cfe1', '#4d96ff', '#8b5cf6', '#35c96f', '#ff70c8', '#ff6b35'];
+    let paused = false;
+    let spawnTimer;
+
+    function makeBalloon(startImmediately = false) {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      const size = 34 + Math.random() * 48;
+      const duration = 7 + Math.random() * 9;
+      const drift = (Math.random() * 2 - 1) * Math.min(90, window.innerWidth * 0.09);
+      balloon.style.left = `${Math.random() * 96}%`;
+      balloon.style.setProperty('--size', `${size}px`);
+      balloon.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+      balloon.style.setProperty('--duration', `${duration}s`);
+      balloon.style.setProperty('--drift', `${drift}px`);
+      if (startImmediately) balloon.style.bottom = `${Math.random() * 90 - 10}vh`;
+      const string = document.createElement('span');
+      string.className = 'string';
+      balloon.appendChild(string);
+      sky.appendChild(balloon);
+      balloon.addEventListener('click', (event) => {
+        if (balloon.classList.contains('burst')) return;
+        event.stopPropagation();
+        balloon.classList.add('burst');
+        // Small colorful burst particles for a fun pop effect.
+        for (let i = 0; i < 8; i++) {
+          const piece = document.createElement('span');
+          piece.className = 'pop-piece';
+          const angle = (Math.PI * 2 * i) / 8;
+          const distance = 28 + Math.random() * 28;
+          piece.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+          piece.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+          balloon.appendChild(piece);
+        }
+        setTimeout(() => balloon.remove(), 500);
+      });
+      balloon.addEventListener('animationend', (event) => {
+        if (event.animationName === 'rise' || event.animationName === 'pop') balloon.remove();
+      });
+    }
+
+    function startBalloons() {
+      for (let i = 0; i < 16; i++) {
+        setTimeout(() => makeBalloon(true), i * 180);
+      }
+      spawnTimer = setInterval(() => {
+        if (!paused) makeBalloon();
+      }, 420);
+    }
+
+    document.getElementById('more').addEventListener('click', () => {
+      for (let i = 0; i < 8; i++) setTimeout(() => makeBalloon(true), i * 90);
+    });
+
+    document.getElementById('pause').addEventListener('click', (event) => {
+      paused = !paused;
+      sky.querySelectorAll('.balloon').forEach(b => b.style.animationPlayState = paused ? 'paused' : 'running');
+      event.currentTarget.textContent = paused ? '▶ Resume' : 'Ⅱ Pause';
+      event.currentTarget.setAttribute('aria-pressed', String(paused));
+    });
+
+    startBalloons();
+  </script>
+
+</body></html>
